@@ -1,4 +1,6 @@
 from django.db import models
+from django.dispatch import receiver
+import os
 
 
 class Image(models.Model):
@@ -13,3 +15,10 @@ class Image(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+
+@receiver(models.signals.post_delete, sender=Image)
+def auto_delete_file_detected(sender, instance, **kwargs):
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            instance.image.delete(False)
