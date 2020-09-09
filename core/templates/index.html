@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block main %}
+<div class="container">
+<a href="{%url 'create' %}" class="btn btn-outline-dark float-right">Add</a>
+<section>
+        <h2 class="text-center section-title m-4">Images</h2>
+        <div class="container">
+            <div class="row justify-content-center mb-2">
+                {% for image in images %}
+                    <div class="card m-2 p-0 pb-1 col-sm-6 col-md-3">
+                        <span class="text-muted d-inline small m-1 text-right">{{ image.created_at|naturaltime }}</span>
+                        <img class="card-img-top mb-1"
+                                 src="{% if image.image %}{{ image.image.url }}{% else %}{% static 'imgs/no-image-found.jpg' %}{% endif %}"
+                                 alt="Card image cap">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ image.title }}</h5>
+<!--                            <p class="card-text">{{ image.description }}...</p>-->
+<!--                            <button type="button" class="btn btn-outline-secondary">Secondary</button>-->
+                            <div class="btn-grp">
+                            <a href="{% url 'detail' image.id %}" class="btn btn-outline-secondary btn-sm">Show</a>
+                            <a href="{% url 'update' image.id %}" class="btn btn-outline-warning btn-sm">Edit</a>
+                            <a href="{% url 'delete' image.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                                </div>
+<!--                            <a class="card-link mt-auto">More</a>-->
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

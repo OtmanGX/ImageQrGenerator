@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+
+<div class="container">
+    <div class="jumbotron">
+        <form method="post">{% csrf_token %}
+  <p class="lead">
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+  </p>
+  <hr class="my-4">
+  <button class="btn btn-danger btn-lg" type="submit" >Confirm</button>
+            </form>
+</div>
+</div>
+
+{% endblock %}

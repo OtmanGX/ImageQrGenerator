@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load qr_code %}
+{% block main %}
+<section class="mt-5 container">
+<!--        <div class="container">-->
+<!--            <h2 class="section-title float-left d-inline">{{ image.title }}</h2> <span class="text-muted d-inline small float-right">{{ image.created_at|naturaltime }}</span>-->
+<!--            <img class="card-img-top mb-2"-->
+<!--                 src="{% if image.image %}{{ image.image.url }}{% else %}{% static 'imgs/no-image-found.jpg' %}{% endif %}"-->
+<!--                 alt="Card image cap">-->
+
+<!--            <hr />-->
+
+<!--            <div class="justify-content-center mt-2">-->
+<!--                {{ image.description | linebreaks }}-->
+<!--            </div>-->
+
+<!--            {% qr_from_text request.build_absolute_uri size="t" image_format="png" error_correction="L" %}-->
+
+<!--        </div>-->
+
+    <ul class="list-group d-flex text-center">
+  <li class="list-group-item">
+      <a href="{{ image.image.url }}">
+          <img class="mb-2" width="400px"
+                 src="{% if image.image %}{{ image.image.url }}{% else %}{% static 'imgs/no-image-found.jpg' %}{% endif %}"
+                 alt="Card image cap">
+      </a>
+  </li>
+  <li class="list-group-item">
+      <b>Title: </b>
+      {{ image.title }}</li>
+  <li class="list-group-item">
+      <b>Description: </b>
+      {{ image.description }}</li>
+  <li class="list-group-item">
+      <b>Created date: </b>
+      {{image.created_at | date:'r'}}</li>
+</ul>
+    <div class="float-right">
+        {% qr_from_text request.build_absolute_uri size="t" image_format="png" error_correction="L" %}
+    </div>
+    </section>
+
+
+{% endblock %}
