@@ -1,6 +1,31 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
+from qrproject import settings
 from .models import Image
+# for qrcode purpose
+from PIL import Image as PILImage
+from io import BytesIO
+import qrcode
+from django.core.files import File
+import os
+
+
+def generate_image_link(http_origin, id):
+    return "/".join([os.path.dirname(http_origin), "image", str(id)])
+
+
+def make_qrcode_image(image, text):
+    im = PILImage.open(image)
+    qr = qrcode.QRCode(box_size=3, border=2)
+    qr.add_data(text)
+    qr.make()
+    img_qr = qr.make_image()
+    pos = (im.size[0] - img_qr.size[0], im.size[1] - img_qr.size[1])
+    im.paste(img_qr, pos)
+    bytes_io = BytesIO()  # create a BytesIO object
+    im.save(bytes_io, im.format)  # save image to BytesIO object
+    return File(bytes_io, name=os.path.basename(image.name))  # create a django friendly File object
 
 
 class ImageListView(ListView):
@@ -14,6 +39,16 @@ class ImageCreateView(CreateView):
     template_name = 'create_image.html'
     success_url = '/'
     fields = ['title', 'image', 'description']
+
+    def form_valid(self, form):
+        image = form.save(commit=True)
+        url = generate_image_link(self.request.build_absolute_uri(), image.id)
+        old_name = image.image.name
+        image.image = make_qrcode_image(image.image, url)
+        os.remove(os.path.join(settings.MEDIA_ROOT, old_name))
+        image.save()
+        return redirect('index')
+
 
 class ImageUpdateView(UpdateView):
     model = Image

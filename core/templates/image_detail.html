@@ -36,11 +36,13 @@
       {{ image.description }}</li>
   <li class="list-group-item">
       <b>Created date: </b>
-      {{image.created_at | date:'r'}}</li>
+      {{image.created_at | date:"Y/m/d H:i:s"}}</li>
+    <li class="list-group-item">
+      <a class="btn btn-outline-primary" href="{{ image.image.url }}" download>Download</a></li>
 </ul>
-    <div class="float-right">
-        {% qr_from_text request.build_absolute_uri size="t" image_format="png" error_correction="L" %}
-    </div>
+<!--    <div class="float-right">-->
+<!--        {% qr_from_text request.build_absolute_uri size="t" image_format="png" error_correction="L" %}-->
+<!--    </div>-->
     </section>
 
 

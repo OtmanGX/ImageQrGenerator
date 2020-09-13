@@ -8,6 +8,9 @@
 `python3 manage.py makemigrations
 `
 
+`python3 manage.py makemigrations core
+`
+
 `python3 manage.py migrate`
 
 **To run the developement server**
