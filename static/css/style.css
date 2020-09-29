@@ -1,0 +1,24 @@
+.primary-color {
+    background-color: #006E62;
+}
+
+.secondary-color {
+    background-color: #00A19B;
+}
+
+.btn-secondary-color {
+    border-color: #00A19B;
+    color: #00A19B;
+}
+
+.btn-another-color {
+    border-color: #0065A1;
+    color: #0065A1;
+}
+
+.another-color {
+    background-color: #0065A1;
+}
+ body {
+ direction: rtl;
+ }

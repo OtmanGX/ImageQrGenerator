@@ -1,3 +1,5 @@
+from django.contrib.contenttypes.fields import GenericRelation
+from hitcount.models import HitCountMixin, HitCount
 from django.db import models
 from django.dispatch import receiver
 import os
@@ -9,6 +11,10 @@ class Image(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='img', blank=False)
+    hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
+                                        related_query_name='hit_count_generic_relation')
+    contact_count = models.PositiveIntegerField(default=0)
+    download_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title

@@ -3,7 +3,7 @@
 {% load humanize %}
 {% block main %}
 <div class="container">
-<a href="{%url 'create' %}" class="btn btn-outline-dark float-right">Add</a>
+<a href="{%url 'create' %}" class="btn btn-outline-secondary btn-secondary-color float-right">Add</a>
 <section>
         <h2 class="text-center section-title m-4">Images</h2>
         <div class="container">
@@ -19,7 +19,7 @@
 <!--                            <p class="card-text">{{ image.description }}...</p>-->
 <!--                            <button type="button" class="btn btn-outline-secondary">Secondary</button>-->
                             <div class="btn-grp">
-                            <a href="{% url 'detail' image.id %}" class="btn btn-outline-secondary btn-sm">Show</a>
+                            <a href="{% url 'detail' image.id %}" class="btn btn-outline-primary btn-another-color btn-sm">Show</a>
                             <a href="{% url 'update' image.id %}" class="btn btn-outline-warning btn-sm">Edit</a>
                             <a href="{% url 'delete' image.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
                                 </div>

@@ -1,5 +1,7 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
+from hitcount.views import HitCountDetailView
 
 from qrproject import settings
 from .models import Image
@@ -57,6 +59,7 @@ class ImageUpdateView(UpdateView):
     success_url = '/'
     fields = ['title', 'description']
 
+
 class ImageDeleteView(DeleteView):
     model = Image
     pk_url_kwarg = 'pk'
@@ -65,10 +68,34 @@ class ImageDeleteView(DeleteView):
     success_message = "The topic has been successfully deleted"
 
 
-class ImageDetailView(DetailView):
+class ImageDetailView(HitCountDetailView):
     model = Image
     context_object_name = "image"
     template_name = 'image_detail.html'
     success_url = '/'
-    fields = ['title', 'image', 'description']
+    count_hit = True
+
+
+class ImageDownload(DetailView):
+    model = Image
+    context_object_name = "image"
+    fields = ['title', 'image']
+
+    def get(self, request, *args, **kwargs):
+        obj = self.get_object()
+        obj.download_count += 1
+        obj.save()
+        return HttpResponse(obj.download_count)
+
+class ImageContact(DetailView):
+    model = Image
+    context_object_name = "image"
+    fields = ['title', 'image']
+
+    def get(self, request, *args, **kwargs):
+        obj = self.get_object()
+        obj.contact_count += 1
+        obj.save()
+        return HttpResponse(obj.download_count)
+
 

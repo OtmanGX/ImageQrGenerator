@@ -2,6 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% load qr_code %}
+{% load hitcount_tags %}
 {% block main %}
 <section class="mt-5 container">
 <!--        <div class="container">-->
@@ -38,7 +39,39 @@
       <b>Created date: </b>
       {{image.created_at | date:"Y/m/d H:i:s"}}</li>
     <li class="list-group-item">
-      <a class="btn btn-outline-primary" href="{{ image.image.url }}" download>Download</a></li>
+        <div class="row w-50 m-auto">
+            <span class="col-4">
+               <button class="btn" disabled>
+                <svg width="1.7em" height="1.7em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+  <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+</svg>
+            </button>
+            </span>
+
+            <span class="col-4 mb-2">
+                <a class="btn btn-outline-primary btn-another-color" onclick="ajaxDownloadCounter({{image.id}})" href="{{ image.image.url }}" download>Download</a>
+            </span>
+            <span class="col-4">
+               <button class="btn" onclick="ajaxContactCounter({{image.id}})">
+                    <svg width="1.7em" height="1.7em" viewBox="0 0 16 16" class="bi bi-telephone-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M2.267.98a1.636 1.636 0 0 1 2.448.152l1.681 2.162c.309.396.418.913.296 1.4l-.513 2.053a.636.636 0 0 0 .167.604L8.65 9.654a.636.636 0 0 0 .604.167l2.052-.513a1.636 1.636 0 0 1 1.401.296l2.162 1.681c.777.604.849 1.753.153 2.448l-.97.97c-.693.693-1.73.998-2.697.658a17.47 17.47 0 0 1-6.571-4.144A17.47 17.47 0 0 1 .639 4.646c-.34-.967-.035-2.004.658-2.698l.97-.969z"/>
+</svg>
+               </button>
+            </span>
+            <div class="col-4">
+                <span class="badge badge-primary">{% get_hit_count for image %}</span>
+            </div>
+            <div class="col-4">
+                <span class="badge badge-secondary">{{image.download_count}}</span>
+            </div>
+            <div class="col-4">
+                <span class="badge badge-success">{{image.contact_count}}</span>
+            </div>
+
+        </div>
+
+    </li>
 </ul>
 <!--    <div class="float-right">-->
 <!--        {% qr_from_text request.build_absolute_uri size="t" image_format="png" error_correction="L" %}-->

@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 
-from core.views import ImageListView, ImageCreateView, ImageUpdateView, ImageDeleteView, ImageDetailView
+from core.views import ImageListView, ImageCreateView, ImageUpdateView, \
+    ImageDeleteView, ImageDetailView, ImageDownload, ImageContact
 from qrproject import settings
 
 urlpatterns = [
@@ -27,4 +28,6 @@ urlpatterns = [
     path('update/<int:pk>', ImageUpdateView.as_view(), name="update"),
     path('delete/<int:pk>', ImageDeleteView.as_view(), name="delete"),
     path('image/<int:pk>', ImageDetailView.as_view(), name="detail"),
+    path('image/download/<int:pk>', ImageDownload.as_view(), name="download"),
+    path('image/contact/<int:pk>', ImageContact.as_view(), name="contact"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
